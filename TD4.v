@@ -6,8 +6,8 @@ module TD4(
 
 reg [3:0] regA,regB,ADD_IN;
 wire [4:0] ADD_OUT;
-wire Cout;
-assign Cout = ADD_OUT[4];
+wire C;
+assign C = !ADD_OUT[4];
 
 assign ADD_OUT = ADD_IN + DATA;
 
@@ -40,9 +40,9 @@ always @(posedge clk or negedge clr) begin
 			4'b1010 : begin ADD_IN <= 4'b0000; regOUT <= ADD_OUT; end
 			4'b1011 : begin ADD_IN <= 4'b0000; regOUT <= ADD_OUT; end
 			//JMP,JZ
-			4'b1100 : begin ADD_IN <= regB; if (!Cout) begin  regPC <= ADD_OUT; end end
-			4'b1101 : begin ADD_IN <= regB; if (!Cout) begin  regPC <= ADD_OUT; end end
-			4'b1110 : begin ADD_IN <= 4'b0000; if (!Cout) begin  regPC <= ADD_OUT; end end
+			4'b1100 : begin ADD_IN <= regB; if (C) begin  regPC <= ADD_OUT; end end
+			4'b1101 : begin ADD_IN <= regB; if (C) begin  regPC <= ADD_OUT; end end
+			4'b1110 : begin ADD_IN <= 4'b0000; if (C) begin  regPC <= ADD_OUT; end end
 			4'b1111 : begin ADD_IN <= 4'b0000; regPC <= ADD_OUT; end
 		endcase
 		
